@@ -1,4 +1,0 @@
-function showForm() {
-  const form = document.getElementById("register-form");
-  form.classList.toggle("hidden");
-}
