@@ -1,171 +1,176 @@
-<!DOCTYPE html><html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aspekt Web - Everest Style</title>
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Everest Style Restaurant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
-    }
-    body {
-      background-color: #f8f9fa;
-      color: #333;
-    }
-    header {
-      background-color: #1e1e1e;
-      color: white;
-      padding: 20px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      font-size: 24px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin-left: 20px;
-      font-weight: 600;
-    }
-    .hero {
-      height: 100vh;
-      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836') center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      color: white;
-      padding-top: 80px;
-    }
-    .hero h2 {
-      font-size: 48px;
-      background-color: rgba(0,0,0,0.5);
-      padding: 20px;
-      border-radius: 10px;
-    }
-    .btn-primary {
-      background-color: #ff6600;
-      color: white;
-      padding: 12px 24px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    .section {
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .section h3 {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-    }
-    .card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 30px;
-      width: 300px;
-    }
-    .card img {
-      width: 100%;
-      border-radius: 12px;
-    }
-    .footer {
-      background: #1e1e1e;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    .social-links a {
-      color: white;
-      margin: 0 10px;
-      font-size: 20px;
-    }
+      font-family: 'Poppins', sans-serif;
+    }body {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+header {
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+header h1 {
+  font-size: 2rem;
+  animation: fadeInDown 1.5s ease;
+}
+
+nav a {
+  margin-left: 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  animation: fadeIn 2s ease;
+}
+
+nav a:hover {
+  color: #ffcc00;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding-top: 60px;
+  animation: fadeInUp 2s ease;
+}
+
+.hero h2 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.hero button {
+  background-color: #ffcc00;
+  color: #000;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.hero button:hover {
+  background-color: #fff;
+  transform: scale(1.1);
+}
+
+section.features {
+  padding: 4rem 2rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.feature {
+  width: 300px;
+  margin: 1rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+  animation: slideInLeft 2s ease;
+}
+
+.feature:hover {
+  transform: scale(1.05);
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: #111;
+}
+
+footer p {
+  font-size: 0.9rem;
+}
+
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  0% { opacity: 0; transform: translateX(-100px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
   </style>
-</head>
-<body>
+</head><body>
   <header>
-    <h1>Aspekt Web</h1>
+    <h1>Everest Cuisine</h1>
     <nav>
-      <a href="#hero">Bosh sahifa</a>
-      <a href="#services">Xizmatlar</a>
-      <a href="#contact">Bog‘lanish</a>
+      <a href="#">Home</a>
+      <a href="#menu">Menu</a>
+      <a href="#contact">Contact</a>
     </nav>
-  </header>  <section class="hero" id="hero">
-    <div>
-      <h2>O‘z veb-saytingizni biz bilan boshlang!</h2>
-      <button class="btn-primary" onclick="scrollToForm()">Ro‘yxatdan o‘tish</button>
+  </header>  <section class="hero">
+    <h2>Welcome to Our Global Kitchen</h2>
+    <p>Experience world flavors under one roof. Discover your next favorite dish with us.</p>
+    <button onclick="document.getElementById('register').scrollIntoView({ behavior: 'smooth' })">Join Us</button>
+  </section>  <section class="features">
+    <div class="feature">
+      <h3>Authentic Flavors</h3>
+      <p>We bring you recipes from around the globe, cooked with love and tradition.</p>
     </div>
-  </section>  <section class="section" id="services">
-    <h3>Xizmatlarimiz</h3>
-    <div class="cards">
-      <div class="card">
-        <img src="https://source.unsplash.com/300x200/?website" alt="Website" />
-        <h4>Sayt Tayyorlash</h4>
-        <p>Responsive va chiroyli dizaynda saytlar yaratamiz.</p>
-      </div>
-      <div class="card">
-        <img src="https://source.unsplash.com/300x200/?coding" alt="Coding" />
-        <h4>Kodlash</h4>
-        <p>HTML, CSS, JS texnologiyalari orqali kod yozamiz.</p>
-      </div>
-      <div class="card">
-        <img src="https://source.unsplash.com/300x200/?support" alt="Support" />
-        <h4>Qo‘llab-quvvatlash</h4>
-        <p>Saytingiz ishlashi uchun doimiy yordam beramiz.</p>
-      </div>
+    <div class="feature">
+      <h3>Fresh Ingredients</h3>
+      <p>Only the freshest ingredients go into our dishes. Taste the difference!</p>
     </div>
-  </section>  <section class="section" id="contact">
-    <h3>Ro‘yxatdan o‘tish</h3>
-    <form name="submit-to-google-sheet" style="max-width: 500px; margin: auto;">
-      <input type="text" name="name" placeholder="Ismingiz" required style="width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc" />
-      <input type="email" name="email" placeholder="Email manzilingiz" required style="width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc" />
-      <input type="text" name="phone" placeholder="Telefon raqamingiz" required style="width:100%;padding:10px;margin-bottom:10px;border-radius:5px;border:1px solid #ccc" />
-      <button class="btn-primary" type="submit">Yuborish</button>
+    <div class="feature">
+      <h3>Friendly Atmosphere</h3>
+      <p>Our cozy space is perfect for family dinners, date nights, or solo indulgence.</p>
+    </div>
+  </section>  <section id="register" class="hero" style="background: rgba(0,0,0,0.3); padding: 4rem 2rem;">
+    <h2>Register Now</h2>
+    <form action="https://formspree.io/f/yourformid" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+      <input type="text" name="name" placeholder="Your Name" required style="padding: 0.5rem; width: 300px;">
+      <input type="email" name="email" placeholder="Your Email" required style="padding: 0.5rem; width: 300px;">
+      <input type="tel" name="phone" placeholder="Your Phone" required style="padding: 0.5rem; width: 300px;">
+      <button type="submit">Submit</button>
     </form>
-    <p id="msg" style="margin-top:20px; color:green;"></p>
-  </section>  <footer class="footer">
-    <p>&copy; 2025 Aspekt Web</p>
-    <div class="social-links">
-      <a href="https://t.me/naturalwonderss" target="_blank">Telegram</a>
-      <a href="https://instagram.com/as1peckt" target="_blank">Instagram</a>
-    </div>
-  </footer>  <script>
-    function scrollToForm() {
-      document.getElementById("contact").scrollIntoView({ behavior: "smooth" });
-    }
-
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbx_g0qEixAMPLE_SCRIPT_ID_HERE/exec';
-    const form = document.forms['submit-to-google-sheet'];
-    const msg = document.getElementById('msg');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(response => {
-          msg.innerHTML = "Muvaffaqiyatli yuborildi!";
-          setTimeout(() => msg.innerHTML = "", 3000);
-          form.reset();
-        })
-        .catch(error => msg.innerHTML = "Xatolik yuz berdi!");
-    });
-  </script></body>
-</html>
+  </section>  <footer>
+    <p>&copy; 2025 Everest Cuisine. All rights reserved.</p>
+  </footer>
+</body></html>
