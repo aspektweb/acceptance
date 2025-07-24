@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Roʻyxatdan oʻtish</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(#e66465, #9198e5);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    form {
+      background: #00000090;
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    button {
+      background-color: #00cc99;
+      color: white;
+      padding: 10px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #00b386;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Roʻyxatdan oʻting</h2>
+  <form action="https://formsubmit.co/a15301107@gmail.com" method="POST">
+    <input type="text" name="Ism" placeholder="Ismingiz" required>
+    <input type="email" name="Email" placeholder="Email manzilingiz" required>
+    <input type="tel" name="Telefon" placeholder="Telefon raqam" required>
+    <textarea name="Izoh" placeholder="Qo‘shimcha ma’lumot" rows="4"></textarea>
+    
+    <input type="hidden" name="_next" value="https://aspektweb.github.io/Work/thankyou.html">
+    <input type="hidden" name="_captcha" value="false">
+
+    <button type="submit">Yuborish</button>
+  </form>
+
+</body>
+</html>
