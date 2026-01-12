@@ -1,38 +1,20 @@
-// backend/server.js
-const express = require('express');
-const cors = require('cors');
+function addFile() {
+    const name = document.getElementById('fileName').value;
+    const cat = document.getElementById('fileCat').value;
+    const date = new Date().toLocaleDateString();
 
-const app = express();
-const PORT = 5000;
+    if(name == "") return alert("Nomini kiriting!");
 
-app.use(cors());
-app.use(express.json());
-
-// Ma'lumotlar bazasi o'rniga vaqtinchalik ro'yxat
-let archivedFiles = [
-  { id: 1, name: 'Shartnoma_2024.pdf', category: 'Legal', date: '2024-01-10', size: 2.5 },
-  { id: 2, name: 'Ish_rejasi.docx', category: 'Work', date: '2024-02-15', size: 1.2 },
-  { id: 3, name: 'Sayohat_rasmi.jpg', category: 'Personal', date: '2023-12-20', size: 5.0 },
-];
-
-// Barcha fayllarni olish
-app.get('/api/files', (req, res) => {
-  res.json(archivedFiles);
-});
-
-// Yangi fayl qo'shish
-app.post('/api/files', (req, res) => {
-  const { name, category, date, size } = req.body;
-  const newFile = { id: Date.now(), name, category, date, size: parseFloat(size) };
-  archivedFiles.push(newFile);
-  res.status(201).json(newFile);
-});
-
-// Statistikani olish
-app.get('/api/stats', (req, res) => {
-  const totalFiles = archivedFiles.length;
-  const totalSize = archivedFiles.reduce((sum, file) => sum + file.size, 0);
-  res.json({ totalFiles, totalSize: totalSize.toFixed(2) });
-});
-
-app.listen(PORT, () => console.log(`Backend http://localhost:${PORT} da ishladi`));
+    const table = document.getElementById('fileList');
+    const row = `
+        <tr class="border-b hover:bg-gray-50">
+            <td class="p-4 font-medium text-blue-600">📄 ${name}</td>
+            <td class="p-4 text-gray-600">${cat}</td>
+            <td class="p-4 text-gray-500">${date}</td>
+        </tr>
+    `;
+    
+    table.innerHTML += row;
+    document.getElementById('modal').style.display = 'none';
+    document.getElementById('fileName').value = "";
+}
