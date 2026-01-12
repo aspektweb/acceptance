@@ -1,1 +1,281 @@
-js
+digital-archive-system/
+├── backend/
+│   ├── server.js          # Main Express server file
+│   ├── package.json       # Backend dependencies and scripts
+│   └── (optional: models/, routes/ for larger apps)
+├── frontend/
+│   ├── public/
+│   │   └── index.html     # HTML template with Tailwind CDN
+│   ├── src/
+│   │   ├── App.js         # Main React component (dashboard)
+│   │   ├── index.js       # React entry point
+│   │   └── components/    # (Optional: Break out Sidebar, Table, etc.)
+│   │       └── (e.g., Sidebar.js, FileTable.js)
+│   └── package.json       # Frontend dependencies and scripts
+├── README.md              # Project overview and setup instructions
+└── .gitignore             # Ignore node_modules, etc.// backend/server.js
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+const PORT = 5000;
+
+// Middleware
+app.use(cors()); // Allow frontend requests
+app.use(express.json()); // Parse JSON bodies
+
+// In-memory storage for demo (replace with DB in production)
+let archivedFiles = [
+  { id: 1, name: 'Contract.pdf', category: 'Legal', date: '2023-10-01', size: 2.5 },
+  { id: 2, name: 'Resume.docx', category: 'Work', date: '2023-09-15', size: 1.2 },
+  { id: 3, name: 'Vacation_Photo.jpg', category: 'Personal', date: '2023-08-20', size: 5.0 },
+];
+
+// Routes
+
+// GET /api/files: Retrieve all archived files
+app.get('/api/files', (req, res) => {
+  res.json(archivedFiles);
+});
+
+// POST /api/files: Add new file metadata
+app.post('/api/files', (req, res) => {
+  const { name, category, date, size } = req.body;
+  if (!name || !category || !date || !size) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+  const newFile = {
+    id: archivedFiles.length + 1,
+    name,
+    category,
+    date,
+    size: parseFloat(size),
+  };
+  archivedFiles.push(newFile);
+  res.status(201).json(newFile);
+});
+
+// GET /api/stats: Retrieve archive statistics
+app.get('/api/stats', (req, res) => {
+  const totalFiles = archivedFiles.length;
+  const totalSize = archivedFiles.reduce((sum, file) => sum + file.size, 0);
+  const categoryCounts = archivedFiles.reduce((counts, file) => {
+    counts[file.category] = (counts[file.category] || 0) + 1;
+    return counts;
+  }, {});
+  res.json({ totalFiles, totalSize: totalSize.toFixed(2), categoryCounts });
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});// frontend/src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);// frontend/src/App.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const App = () => {
+  const [files, setFiles] = useState([]);
+  const [filteredFiles, setFilteredFiles] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
+  const [stats, setStats] = useState({});
+  const [showUploadModal, setShowUploadModal] = useState(false);
+  const [newFile, setNewFile] = useState({ name: '', category: '', date: '', size: '' });
+
+  // Fetch files and stats on load
+  useEffect(() => {
+    fetchFiles();
+    fetchStats();
+  }, []);
+
+  // Fetch all files
+  const fetchFiles = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/files');
+      setFiles(response.data);
+      setFilteredFiles(response.data);
+    } catch (error) {
+      console.error('Error fetching files:', error);
+    }
+  };
+
+  // Fetch stats
+  const fetchStats = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/stats');
+      setStats(response.data);
+    } catch (error) {
+      console.error('Error fetching stats:', error);
+    }
+  };
+
+  // Handle search and filter
+  useEffect(() => {
+    let filtered = files.filter(file =>
+      file.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    if (filterCategory) {
+      filtered = filtered.filter(file => file.category === filterCategory);
+    }
+    setFilteredFiles(filtered);
+  }, [searchTerm, filterCategory, files]);
+
+  // Handle upload
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:5000/api/files', newFile);
+      setNewFile({ name: '', category: '', date: '', size: '' });
+      setShowUploadModal(false);
+      fetchFiles();
+      fetchStats();
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  return (
+    <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
+      <div className="w-64 bg-blue-900 text-white p-6">
+        <h2 className="text-2xl font-bold mb-6">Raqamli Arxiv</h2>
+        <nav>
+          <ul>
+            <li className="mb-4"><a href="#" className="hover:text-blue-300">Dashboard</a></li>
+            <li className="mb-4"><a href="#" className="hover:text-blue-300">Archives</a></li>
+            <li className="mb-4"><a href="#" className="hover:text-blue-300">Settings</a></li>
+          </ul>
+        </nav>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold">Statistics</h3>
+          <p>Total Files: {stats.totalFiles}</p>
+          <p>Total Size: {stats.totalSize} MB</p>
+          <p>Categories: {Object.entries(stats.categoryCounts || {}).map(([cat, count]) => `${cat}: ${count}`).join(', ')}</p>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-8">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800">Digital Archive Dashboard</h1>
+
+        {/* Search and Filter */}
+        <div className="flex mb-6 space-x-4">
+          <input
+            type="text"
+            placeholder="Search documents..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <select
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Categories</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Legal">Legal</option>
+          </select>
+          <button
+            onClick={() => setShowUploadModal(true)}
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
+          >
+            Upload File
+          </button>
+        </div>
+
+        {/* Table */}
+        <table className="w-full bg-white shadow-md rounded-lg overflow-hidden">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="p-4 text-left">File Name</th>
+              <th className="p-4 text-left">Category</th>
+              <th className="p-4 text-left">Date</th>
+              <th className="p-4 text-left">Size (MB)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredFiles.map(file => (
+              <tr key={file.id} className="border-b hover:bg-gray-50">
+                <td className="p-4">{file.name}</td>
+                <td className="p-4">{file.category}</td>
+                <td className="p-4">{file.date}</td>
+                <td className="p-4">{file.size}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Upload Modal */}
+        {showUploadModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+              <h2 className="text-xl font-bold mb-4">Upload New File</h2>
+              <form onSubmit={handleUpload}>
+                <input
+                  type="text"
+                  placeholder="File Name"
+                  value={newFile.name}
+                  onChange={(e) => setNewFile({ ...newFile, name: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                  required
+                />
+                <select
+                  value={newFile.category}
+                  onChange={(e) => setNewFile({ ...newFile, category: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                  required
+                >
+                  <option value="">Select Category</option>
+                  <option value="Work">Work</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Legal">Legal</option>
+                </select>
+                <input
+                  type="date"
+                  value={newFile.date}
+                  onChange={(e) => setNewFile({ ...newFile, date: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                  required
+                />
+                <input
+                  type="number"
+                  step="0.1"
+                  placeholder="Size (MB)"
+                  value={newFile.size}
+                  onChange={(e) => setNewFile({ ...newFile, size: e.target.value })}
+                  className="w-full p-3 mb-4 border border-gray-300 rounded-lg"
+                  required
+                />
+                <div className="flex justify-end space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowUploadModal(false)}
+                    className="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Upload
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default App;
