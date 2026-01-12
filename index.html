@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raqamli Arxiv</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="flex h-screen">
+        <div class="w-64 bg-slate-900 text-white p-6">
+            <h1 class="text-2xl font-bold mb-8">MY ARCHIVE</h1>
+            <nav class="space-y-4">
+                <a href="index.html" class="block p-2 bg-blue-600 rounded">Asosiy sahifa</a>
+                <a href="cabinet.html" class="block p-2 hover:bg-slate-800">Shaxsiy kabinet</a>
+            </nav>
+        </div>
+
+        <div class="flex-1 p-10">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800">Hujjatlar ombori</h2>
+                <button onclick="document.getElementById('modal').style.display='flex'" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                    + Yangi yuklash
+                </button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="p-4">Fayl nomi</th>
+                            <th class="p-4">Kategoriya</th>
+                            <th class="p-4">Sana</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fileList">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black/50 hidden items-center justify-center">
+        <div class="bg-white p-8 rounded-xl w-96">
+            <h3 class="text-xl font-bold mb-4">Fayl ma'lumotlarini kiriting</h3>
+            <input id="fileName" type="text" placeholder="Nomi" class="w-full mb-4 p-2 border rounded">
+            <select id="fileCat" class="w-full mb-4 p-2 border rounded">
+                <option value="Ish">Ish</option>
+                <option value="Shaxsiy">Shaxsiy</option>
+            </select>
+            <div class="flex justify-end gap-2">
+                <button onclick="document.getElementById('modal').style.display='none'" class="px-4 py-2 text-gray-500">Bekor qilish</button>
+                <button onclick="addFile()" class="px-4 py-2 bg-blue-600 text-white rounded">Saqlash</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="Javascript"></script>
+</body>
+</html>
